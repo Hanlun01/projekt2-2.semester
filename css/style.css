@@ -1,0 +1,144 @@
+@import url("https://use.typekit.net/ngn4wlq.css");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "textbook-new", serif;
+}
+
+p {
+  font-family: "neuzeit-grotesk", sans-serif;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #6d8b8e;
+  z-index: 100;
+}
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+header nav .logo {
+  color: white;
+  font-weight: bold;
+}
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+header nav ul a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a {
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.hero {
+  height: 100vh;
+  background-image: url("../img/daria-nepriakhina-_XR5rkprHQU-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 5rem;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(30, 30, 30, 0.65);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 34px;
+  background-color: #694a47;
+  z-index: 2;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  color: white;
+}
+.hero-content h1 {
+  font-size: 128px;
+  margin-bottom: 5rem;
+}
+.hero-content p {
+  margin-top: 5rem;
+}
+.hero-content .btn {
+  margin-top: 5rem;
+}
+
+.info {
+  background-color: #f5f0e8;
+  padding: 5rem 2rem;
+}
+.info-content {
+  max-width: 600px;
+}
+.info-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.info-content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.quiz-hero {
+  height: 100vh;
+  background-image: url("../img/keyboard.jpg");
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.quiz-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(30, 30, 30, 0.65);
+}
+.quiz-hero .btn {
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  background-color: #6d8b8e;
+  color: white;
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.btn {
+  transition: background-color 0.2s ease;
+}
+.btn:hover {
+  background-color: rgb(86.8525896414, 110.7569721116, 113.1474103586);
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,172 @@
+@import url("https://use.typekit.net/ngn4wlq.css");
+$primary-color:#6d8b8e; 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'textbook-new', serif;
+}
+
+p{
+    font-family: 'neuzeit-grotesk', sans-serif;
+}
+
+// nav
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: $primary-color;
+    z-index: 100;
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+
+        .logo {
+            color: white;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+
+            a {
+                color: white;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+//nav hover
+nav a {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+//hero
+.hero {
+    height: 100vh;
+    background-image: url('../img/daria-nepriakhina-_XR5rkprHQU-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 5rem;
+    
+
+    &::before{
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: rgba(30, 30, 30, 0.65)
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 34px;
+        background-color: #694a47;
+        z-index: 2;
+    }
+
+    &-content {
+        position: relative;
+        z-index: 1;
+        text-align: left;
+        color: white;
+
+        h1 {
+            font-size: 128px;
+            margin-bottom: 5rem;
+        }
+
+        p {
+            margin-top: 5rem;
+        }
+
+        .btn {
+            margin-top: 5rem;
+        }
+    }
+}
+
+//info
+.info{
+    background-color: #f5f0e8;
+    padding: 5rem 2rem;
+
+    &-content{
+        max-width: 600px;
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        p{
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+    }
+}
+
+//quiz hero
+
+.quiz-hero{
+    height: 100vh;
+    background-image: url('../img/keyboard.jpg');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &::before{
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: rgba(30, 30, 30, 0.65);
+    }
+
+    .btn {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+//knap
+.btn {
+    background-color: $primary-color;
+    color: white;
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+//knap hover
+.btn{
+    transition: background-color 0.2s ease;
+
+    &:hover{
+        background-color: darken($primary-color, 10%);
+    }
+}
