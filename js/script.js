@@ -1,6 +1,8 @@
-const startbtn = document.getElementById('start-btn');
+
+const startBtn = document.getElementById('start-btn');
 const quizStart = document.getElementById('quiz-start');
 const quizContainer = document.getElementById('quiz-container');
+
 
 
 const scener = [
@@ -47,12 +49,71 @@ function visScene(index){
      </div>
     </div>
       `;
+    } else if (scene.scene === "sms") {
+        html = `
+        <div class="sms-mock">
+        <div class="sms-sender">${scene.fra}</div>
+        <div class="sms-bubble">${scene.besked}</div>
+    </div>
+        `;
+    }
+
+    html += `<div class="valg-container">`;
+    scene.valg.forEach(function(valg, i) {
+        html += `<button class="valg-btn" onclick="handleValg(${index}, ${i})">${valg}</button>`;
+    });
+    html +=`</div>`; 
+    quizContainer.innerHTML =html;
+} 
+
+function handleValg(sceneIndex, valgIndex) {
+    const udfald = scener[sceneIndex].udfald[valgIndex];
+    if (udfald === "dårlig"){
+        visDårligSlutning(sceneIndex, valgIndex);
+    } else{
+        if (sceneIndex === 0) {
+            visScene(1);
+        } else if (sceneIndex === 1) {
+            visScene(2);
+        } else if (sceneIndex === 2) {
+            visGodSlutning();
+        }
     }
 }
-]
 
 
-startbtn.addEventListener('click', function() {
+function visDårligSlutning(sceneIndex, valgIndex) {
+    const forklaringer = [
+        "Afsenderen 'it-support@iba-secure.net' er ikke en officiel IBA-adresse. Læg mærke til '.net' i stedet for '.dk'. Der var også to tastefejl i mailen: 'oppdaget' og 'mulligt'.",
+        "IT-support vil aldrig bede dig sende din adgangskode. Hverken via SMS, mail eller telefon.",
+        "QR-koder er links i forklædning. Selvom mailen ser legitim ud, sender QR-koden dig til en falsk side."
+    ];
+
+    quizContainer .innerHTML = `
+<div class="slutning daarlig">
+    <h2>Du er desværre faldet i fælden</h2>
+    <p>${forklaringer[sceneIndex]}</p>
+    <button class="btn" onclick="genstart()">Prøv igen</button>
+</div>
+    `;
+}
+
+function visGodSlutning() {
+    quizContainer.innerHTML = `
+    <div class="slutning god">
+            <h2>Godt klaret!</h2>
+            <p>Du gennemskuede alle tre phishing-forsøg — også den svære med QR-koden. Du er godt rustet til at beskytte din konto.</p>
+            <button class="btn" onclick="genstart()">Tag testen igen</button>
+        </div>
+    `;
+}
+
+function genstart(){
+    quizContainer .classList.add('hidden');
+    quizStart.classList.remove('hidden');
+}
+
+startBtn.addEventListener('click', function() {
     quizStart.classList.add('hidden');
     quizContainer.classList.remove('hidden');
     visScene(0);
