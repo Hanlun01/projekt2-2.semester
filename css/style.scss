@@ -39,6 +39,10 @@ header {
             }
         }
 
+        .burger {
+            display: none;
+        }
+
         ul {
             list-style: none;
             display: flex;
@@ -334,5 +338,56 @@ nav a {
         color: #085041;
         font-size: 0.95rem;
         line-height: 1.5;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .burger {
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+
+        span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background-color: white;
+        }
+    }
+
+    header nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: $primary-color;
+        padding: 1rem 2rem;
+        gap: 1rem;
+
+        &.open {
+            display: flex;
+        }
+    }
+
+    .hero {
+        padding-left: 2rem;
+        padding-right: 2rem;
+
+        &-content {
+            h1 {
+                font-size: 3rem;
+            }
+
+            p { margin-top: 2rem; }
+
+            .btn { margin-top: 2rem; }
+        }
     }
 }

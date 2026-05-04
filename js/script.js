@@ -154,3 +154,9 @@ startBtn.addEventListener('click', function() {
     visScene(0);
 });
 
+const burgerBtn = document.getElementById('burger-btn');
+const navMenu = document.getElementById('nav-menu');
+
+burgerBtn.addEventListener('click', function(){
+    navMenu.classList.toggle('open');
+});

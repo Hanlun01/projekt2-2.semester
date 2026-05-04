@@ -34,6 +34,9 @@ header nav .logo a {
   color: white;
   text-decoration: none;
 }
+header nav .burger {
+  display: none;
+}
 header nav ul {
   list-style: none;
   display: flex;
@@ -293,4 +296,49 @@ nav a:hover {
   color: #085041;
   font-size: 0.95rem;
   line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .burger {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .burger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: white;
+  }
+  header nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #6d8b8e;
+    padding: 1rem 2rem;
+    gap: 1rem;
+  }
+  header nav ul.open {
+    display: flex;
+  }
+  .hero {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  .hero-content p {
+    margin-top: 2rem;
+  }
+  .hero-content .btn {
+    margin-top: 2rem;
+  }
 }/*# sourceMappingURL=style.css.map */
