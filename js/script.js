@@ -4,7 +4,6 @@ const quizStart = document.getElementById('quiz-start');
 const quizContainer = document.getElementById('quiz-container');
 
 
-
 const scener = [
     {
         scene: "email",
@@ -15,7 +14,8 @@ const scener = [
         udfald: ["dårlig", "god"],
         dårligMellemstep: "Du klikker på linket og lander på en side der ligner IBA's loginside. Du indtaster dit brugernavn og adgangskode...",
         godMellemstep: "Du kigger nærmere på afsenderen og ser at adressen er 'it-support@iba-secure.net' og ikke '@iba.dk'",
-        godForklaring: "Godt valg! Afsenderen 'it-support@iba-secure.net' er ikke en officiel IBA-adresse. Ved altid at tjekke afsenderen undgår du at klikke på falske links."
+        godForklaring: "Godt valg! Du opdagede at afsenderens mail ikke er officiel. Svindlere prøver ofte at snyde ved at bruge adresser der ligner rigtige virksomheder. Ved at stoppe op og tjekke afsenderen undgår du at blive narret. En god vane er altid at verificere beskeder ved selv at finde afsenderens mail via deres officielle hjemmeside. På den måde kan du sikkert tjekke om det er den rigtige mail.",
+        regel: "Find altid afsenderen online og bekræft email adressen",
     },
     {
         scene: "sms",
@@ -25,7 +25,8 @@ const scener = [
         udfald: ["dårlig", "god"],
         dårligMellemstep: "Du sender din kode til IT-support. Kort efter får du en besked: 'Tak, din kode er nu opdateret.' Det føles som om alt er i orden...",
         godMellemstep: "Du afviser beskeden og rapporterer den til din rigtige IT-afdeling. De bekræfter at det var et forsøg på phishing.",
-        godForklaring: "Godt valg! IT-support beder aldrig om din adgangskode via SMS. Denne type beskeder er altid et tegn på svindel."
+        godForklaring: "Godt valg! Du vidste at IT-support aldrig beder om adgangskoder. Din adgangskode er altid privat og bør ikke deles med andre. Det er en af de vigtigste sikkerhedsregler. Ved at afvise og rapportere beskeden hjælper du både dig selv og andre med at undgå svindel.",
+        regel: "Del aldrig din adgangskode med nogen. Heller ikke med IT-support",
     },
 
     {
@@ -37,9 +38,11 @@ const scener = [
         udfald: ["dårlig", "dårlig", "god" ],
         dårligMellemstep: "Du scanner QR-koden og lander på en side der ser helt legitim ud. Adressen ligner endda iba.dk.",
         godMellemstep: "Du ignorerer QR-koden og går direkte ind på iba.dk. Alt ser normalt ud og der er ingen besked om at du skal opdatere din kode.",
-        godForklaring: "Godt valg! QR-koder kan sende dig til falske sider ligesom links. Ofte ser de helt legimetime ud. Gå altid direkte til den officielle side."
+        godForklaring: "Godt valg! I stedet for at stole på QR-koden gik du direkte til den officielle hjemmeside. Det er en af de sikreste metoder. Når noget haster eller virker vigtigt, er det ekstra vigtigt at tage kontrollen selv og ikke følge links eller QR-koder blindt.",
+        regel: "Gå altid direkte til den officielle hjemmeside i stedet for at bruge usikre links eller QR-koder.",
     }
 ];
+
 
 function visScene(index){
     const scene = scener[index];
@@ -108,7 +111,10 @@ function visGodForklaring(sceneIndex) {
 
     quizContainer.innerHTML = `
         <div class="slutning god">
+        <h2>Godt klaret! Du spottede phishing</h2>
             <p>${scener[sceneIndex].godForklaring}</p>
+            <p class="regel"> Regel: ${scener[sceneIndex].regel}</p>
+
             ${næsteScene < scener.length 
                 ? `<button class="btn" onclick="visScene(${næsteScene})">Næste scene</button>`
                 : `<button class="btn" onclick="visGodSlutning()">Se dit resultat</button>`
@@ -128,6 +134,7 @@ function visDårligSlutning(sceneIndex) {
         <div class="slutning daarlig">
             <h2>Du er desværre faldet i fælden</h2>
             <p>${forklaringer[sceneIndex]}</p>
+            <p class="regel"> Regel: ${scener[sceneIndex].regel}</p>
             <button class="btn" onclick="genstart()">Prøv igen</button>
         </div>
     `;
@@ -137,7 +144,7 @@ function visGodSlutning() {
     quizContainer.innerHTML = `
     <div class="slutning god">
             <h2>Godt klaret!</h2>
-            <p>Du gennemskuede alle tre phishing-forsøg — også den svære med QR-koden. Du er godt rustet til at beskytte din konto.</p>
+            <p>Du gennemskuede alle tre phishing-forsøg, også den svære med QR-koden. Du er godt rustet til at beskytte din konto.</p>
             <button class="btn" onclick="genstart()">Tag testen igen</button>
         </div>
     `;
@@ -148,10 +155,21 @@ function genstart(){
     quizStart.classList.remove('hidden');
 }
 
+function visIntro() {
+    quizContainer.innerHTML = `
+        <div class="slutning mellemstep">
+            <p>Du er studerende på IBA's erhvervsakademi og vil nu modtage en række beskeder, mails og SMS'er.</p>
+            <p>Din opgave er at træffe de rigtige valg og undgå at falde i fælden.</p>
+            <p>Mon du kan spotte phishing?</p>
+            <button class="btn" onclick="visScene(0)">Start scenarie 1</button>
+        </div>
+    `;
+}
+
 startBtn.addEventListener('click', function() {
     quizStart.classList.add('hidden');
     quizContainer.classList.remove('hidden');
-    visScene(0);
+    visIntro();
 });
 
 const burgerBtn = document.getElementById('burger-btn');
