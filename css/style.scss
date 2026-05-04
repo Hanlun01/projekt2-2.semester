@@ -32,6 +32,11 @@ header {
         .logo {
             color: white;
             font-weight: bold;
+
+            a {
+                color: white;
+                text-decoration: none;
+            }
         }
 
         ul {
@@ -189,11 +194,79 @@ nav a {
     z-index: 2;
     color: white;
     text-align: center;
-    padding: 2rem;
+    padding: 4rem 2rem;
+    width: 100%;
+}
+
+#quiz-start{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 .hidden{
-    display: none;
+    display: none !important;
+}
+
+.slutning {
+    background-color: white;
+    color: #1e1e1e;
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+
+    &.mellemstep {
+        background-color: white;
+        border-top: none;
+        border-radius: 8px;
+
+        p{ color: #1e1e1e;}
+
+        .btn {
+            background-color: $primary-color;
+            color: white;
+        }
+    }
+
+    p{
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        color: #1e1e1e;
+    }
+
+    h2{
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #1e1e1e;
+    }
+
+    &.god{
+        background-color: #eaf3de;
+        border-top: 6px solid #3b6d11;
+
+        h2, p {color: #27500a;}
+
+        .btn {
+            background-color: #3b6d11;
+            color: white;
+        }
+    }
+
+    &.daarlig {
+        background-color: #fcebeb;
+        border-top: 6px solid #a32d2d;
+
+        h2, p{color: #791f1f;}
+
+        .btn {
+            background-color: #a32d2d;
+            color: white;
+        }
+    }
 }
 
 .valg-container {

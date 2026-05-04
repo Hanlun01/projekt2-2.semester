@@ -30,6 +30,10 @@ header nav .logo {
   color: white;
   font-weight: bold;
 }
+header nav .logo a {
+  color: white;
+  text-decoration: none;
+}
 header nav ul {
   list-style: none;
   display: flex;
@@ -158,11 +162,74 @@ nav a:hover {
   z-index: 2;
   color: white;
   text-align: center;
-  padding: 2rem;
+  padding: 4rem 2rem;
+  width: 100%;
+}
+
+#quiz-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.slutning {
+  background-color: white;
+  color: #1e1e1e;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.slutning.mellemstep {
+  background-color: white;
+  border-top: none;
+  border-radius: 8px;
+}
+.slutning.mellemstep p {
+  color: #1e1e1e;
+}
+.slutning.mellemstep .btn {
+  background-color: #6d8b8e;
+  color: white;
+}
+.slutning p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: #1e1e1e;
+}
+.slutning h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #1e1e1e;
+}
+.slutning.god {
+  background-color: #eaf3de;
+  border-top: 6px solid #3b6d11;
+}
+.slutning.god h2, .slutning.god p {
+  color: #27500a;
+}
+.slutning.god .btn {
+  background-color: #3b6d11;
+  color: white;
+}
+.slutning.daarlig {
+  background-color: #fcebeb;
+  border-top: 6px solid #a32d2d;
+}
+.slutning.daarlig h2, .slutning.daarlig p {
+  color: #791f1f;
+}
+.slutning.daarlig .btn {
+  background-color: #a32d2d;
+  color: white;
 }
 
 .valg-container {
