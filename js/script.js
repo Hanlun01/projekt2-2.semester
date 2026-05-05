@@ -28,6 +28,8 @@ const scener = [
 
         step2Besked: "Tak! Vi skal bruge din nuværende kode for at verificere din identitet.",
         step2Valg: ["Send dem min kode", "Afvis. IT-support beder aldrig om kode"],
+        svar: ["Ja, det er mig", ""],
+        step2Svar: ["Her er min kode 123...", "Jeg deler ikke min kode"],
         step2Udfald: ["dårlig", "god"],
 
         dårligMellemstep: "Du sender din kode til IT-support. Kort efter får du en besked: 'Tak, din kode er nu opdateret.' Det føles som om alt er i orden...",
@@ -68,11 +70,14 @@ function visScene(index){
      </div>
     </div>
       `;
+
     } else if (scene.scene === "sms") {
         html = `
         <div class="sms-mock">
         <div class="sms-sender">${scene.fra}</div>
-        <div class="sms-bubble">${scene.besked}</div>
+        <div class="sms-chat" id="sms-chat">
+        <div class="sms-bubble bot">${scene.besked}
+        </div>
     </div>
         `;
     }
@@ -87,41 +92,99 @@ function visScene(index){
 
 function visStep2(sceneIndex) {
     const scene = scener[sceneIndex];
-    let html = `
-    <div class="sms-mock">
-    <div class="sms-sender">${scene.fra}</div>
-    <div class="sms-bubble">${scene.step2Besked}</div>
-    </div>
-    <div class="valg-container">
+    const chat = document.getElementById('sms-chat');
+
+    const gamleKnapper = document.querySelector('.valg-container');
+    if (gamleKnapper) gamleKnapper.remove();
+
+    chat.innerHTML += `
+        <div class="sms-bubble user">
+            ${scene.svar[0]}
+        </div>
     `;
-    scene.step2Valg.forEach(function(valg, i) {
-        html += `<button class="valg-btn" onclick="handleStep2(${sceneIndex}, ${i})">${valg}</button>`;
-    });
-    html += `</div>`;
-    quizContainer.innerHTML = html;
+
+    chat.innerHTML += `
+        <div class="sms-bubble bot typing" id="typing">...</div>
+    `;
+
+    setTimeout(() => {
+        const typing = document.getElementById('typing');
+        if (typing) typing.remove();
+
+        chat.innerHTML += `
+            <div class="sms-bubble bot">
+                ${scene.step2Besked}
+            </div>
+        `;
+
+        let html = `<div class="valg-container">`;
+
+        scene.step2Valg.forEach(function(valg, i) {
+            html += `<button class="valg-btn" onclick="handleStep2(${sceneIndex}, ${i})">${valg}</button>`;
+        });
+
+        html += `</div>`;
+
+        document.querySelector('.sms-mock').innerHTML += html;
+
+    }, 800);
+}
+
+
+
+
+
+
+html += `</div>`;
+document.querySelector('.sms-mock').innerHTML += html;
 }
 
 function handleStep2(sceneIndex, valgIndex) {
-    const udfald = scener[sceneIndex].step2Udfald[valgIndex];
-    if (udfald === "dårlig") {
-        fejl++;
-        visDårligMellemstep(sceneIndex);
-    } else {
-        visGodMellemstep(sceneIndex);
-    }
+    const scene = scener[sceneIndex];
+    const chat = document.getElementById('sms-chat');
+    
+     const udfald = scene.step2Udfald[valgIndex];
+     
+     setTimeout(() => {
+        if (udfald === "dårlig") {
+            fejl++;
+            visDårligMellemstep(sceneIndex);
+        } else {
+            visGodMellemstep(sceneIndex);
+        }
+    }, 800);
 }
 
+
 function handleValg(sceneIndex, valgIndex) {
-    const udfald = scener[sceneIndex].udfald[valgIndex];
+    const scene = scener[sceneIndex];
+    const udfald = scene.udfald[valgIndex];
+    if (scene.scene === "sms" && scene.svar) {
+        const chat = document.getElementById('sms-chat');
+
+                if (chat && scene.svar[valgIndex]) {
+            chat.innerHTML += `
+                <div class="sms-bubble user">
+                    ${scene.svar[valgIndex]}
+                </div>
+            `;
+        }
+    }
+
     if (udfald === "dårlig") {
         fejl++;
         visDårligMellemstep(sceneIndex);
+
     } else if (udfald === "step2") {
-        visStep2(sceneIndex);
+        setTimeout(() => {
+            visStep2(sceneIndex);
+        }, 500);
     } else {
         visGodMellemstep(sceneIndex);
+    } 
+
     }
-}
+
 
 function visDårligMellemstep(sceneIndex) {
     quizContainer.innerHTML = `
