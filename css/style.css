@@ -175,6 +175,15 @@ nav a:hover {
   align-items: center;
   gap: 1.5rem;
 }
+#quiz-start h2 {
+  font-size: 3rem;
+  color: white;
+}
+#quiz-start p {
+  font-size: 1.3rem;
+  color: white;
+  max-width: 600px;
+}
 
 .hidden {
   display: none !important;
@@ -259,23 +268,57 @@ nav a:hover {
 }
 
 .email-mock {
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-family: Arial, sans-serif;
   background-color: white;
   color: #1e1e1e;
-  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  border-radius: 12px;
   padding: 1.5rem;
   max-width: 600px;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto;
   text-align: left;
 }
+.email-mock .email-topbar {
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  background: #f1f1ff;
+}
+.email-mock .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.email-mock .dot.red {
+  background: #ff5f57;
+}
+.email-mock .dot.yellow {
+  background: #ffbd2e;
+}
+.email-mock .dot.green {
+  background: #28c840;
+}
 .email-mock .email-header {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
   margin-bottom: 1rem;
 }
-.email-mock .email-header span {
-  font-weight: bold;
+.email-mock .email-header .label {
+  color: #777;
+  font-size: 13px;
+}
+.email-mock .email-header .value {
+  font-weight: 600;
+  color: #1e1e1e;
+}
+.email-mock .email-header div {
+  margin-bottom: 4px;
+}
+.email-mock .email-body {
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .sms-mock {
@@ -324,6 +367,15 @@ nav a:hover {
   text-align: center;
   font-size: 1.1rem;
   color: #2f5d0c;
+}
+
+.fake-link {
+  color: #2a7ae2;
+  text-decoration: none;
+}
+
+.email-signoff {
+  margin-top: 1.5rem;
 }
 
 @media (max-width: 768px) {
@@ -377,4 +429,14 @@ nav a:hover {
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   margin-bottom: 1rem;
+}
+
+.fake-qr {
+  width: 100px;
+  height: 100px;
+  margin: 20px 0;
+  background: repeating-linear-gradient(0deg, #000 0 6px, #fff 6px 12px), repeating-linear-gradient(90deg, #000 0 6px, #fff 6px 12px);
+  background-color: #fff;
+  border: 6px solid #fff;
+  outline: 3px solid #ccc;
 }/*# sourceMappingURL=style.css.map */

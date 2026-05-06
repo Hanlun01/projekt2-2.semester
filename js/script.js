@@ -11,12 +11,15 @@ const scener = [
         scene: "email",
         fra: "it-support@iba-secure.net",
         emne: "Vigtigt: Sikkerhedsbrud på din studiekonto",
-        besked: "Kære studerende, vi har oppdaget et sikkerhedsbrud i vores systemer. Alle studerende bedes ændre deres adgangskode hurtigst mulligt for at beskytte deres konto. Klik her for at opdatere: iba-login-secure.dk/opdater-kode",
+        besked: "Kære studerende, vi har oppdaget et sikkerhedsbrud i vores systemer. Alle studerende bedes ændre deres adgangskode hurtigst mulligt for at beskytte deres konto",
+        harQR: false,
+        harLink: true,
+        link: "iba-login-secure.dk/opdater-kode",
         valg: ["Klik på linket og skift kode med det samme", "Tjek afsenderen og kontakt IT-support direkte"],
         udfald: ["dårlig", "god"],
         dårligMellemstep: "Du klikker på linket og lander på en side der ligner IBA's loginside. Du indtaster dit brugernavn og adgangskode...",
         godMellemstep: "Du kigger nærmere på afsenderen og ser at adressen er 'it-support@iba-secure.net' og ikke '@iba.dk'",
-        godForklaring: "Godt set! Det er phishing. Afsenderen bruger en mail, der ligner en officiel adresse, men domænet er forkert. Det er et af de mest almindelige tegn på svindel.",
+        godForklaring: "Afsenderen bruger 'it-support@iba-secure.net' i stedet for den rigtige '@iba.dk'. Dette er et klassisk eksempel på social engineering. Svindlere bruger tricks som disse til at få dig til at stole på dem. Ved at kopiere et kendt navn og kun ændre domænet håber de at du handler hurtigt uden at tænke dig om.",
         regel: "Tjek altid afsenderens domæne og se om det matcher den officielle hjemmeside.",
     },
     {
@@ -34,7 +37,7 @@ const scener = [
 
         dårligMellemstep: "Du sender din kode til IT-support. Kort efter får du en besked: 'Tak, din kode er nu opdateret.' Det føles som om alt er i orden...",
         godMellemstep: "Du afviser beskeden og rapporterer den til din rigtige IT-afdeling. De bekræfter at det var et forsøg på phishing.",
-        godForklaring: "Godt set! Svindlere udgiver sig ofte for at være IT-support for at få adgang til dine oplysninger. Det er phishing, og en legitim IT-afdeling vil aldrig bede om din adgangskode.",
+        godForklaring: "Svindlere udgiver sig ofte for at være fra IT-support for at få adgang til dine oplysninger. De forsøger at skabe tillid ved først at spørge om det er dig, og derefter bede om din kode. En rigtig IT-afdeling vil aldrig bede om din adgangskode uanset situationen.",
         regel: "Del aldrig din adgangskode med nogen. Heller ikke med IT-support",
     },
 
@@ -43,12 +46,13 @@ const scener = [
         fra: "it@iba.dk",
         emne: "Nyt sikker login-system",
         besked: "Kære studerende, din konto kræver bekræftelse. Scan QR-koden nedenfor for at undgå midlertidig lukning.",
+        harQR: true,
         valg: ["Scan QR-koden og log ind", "Scan QR-koden men tjek URL'en først", "Gå direkte ind på iba.dk og log ind derfra" ],
         udfald: ["dårlig", "dårlig", "god" ],
         dårligMellemstep: "Du scanner QR-koden og lander på en side der ser helt legitim ud. Adressen ligner endda iba.dk.",
         godMellemstep: "Du ignorerer QR-koden og går direkte ind på iba.dk. Alt ser normalt ud og der er ingen besked om at du skal opdatere din kode.",
-        godForklaring: "Godt valg! QR-koder kan skjule phishing links. Ved at gå direkte til den officielle hjemmeside undgår du at blive sendt til en falsk side. Når noget virker vigtigt eller haster, skal du altid tænke dig ekstra om.",
-        regel: "Gå altid direkte til den officielle hjemmeside i stedet for at bruge usikre links eller QR-koder.",
+        godForklaring: "QR-koder er i virkeligheden bare links i forklædning og kan sende dig til en falsk side der ser helt legitim ud. Svindlere prøver at skabe et kunstigt tidspres for at få dig til at scanne uden at tænke dig om.",
+        regel: "Scan aldrig en QR-kode som du ikke kender. Brug den officielle hjemmeside i stedet.",
     }
 ];
 
@@ -60,15 +64,40 @@ function visScene(index){
     if (scene.scene === "email"){
         html = `
         <div class="email-mock">
-        <div class="email-header">
-        <p><span>Fra:</span> ${scene.fra}</p>
-        <p><span>Emne:</span> ${scene.emne}</p>
+        <div class="email-topbar">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
         </div>
 
-        <div class="email-body">
-        <p>${scene.besked}</p>
-     </div>
-    </div>
+        <div class="email-header">
+        <div><span class="label">Fra:</span> <span class="value">${scene.fra}</span></div>
+        <div><span class="label">Emne:</span> <span class="value">${scene.emne}</span></div>
+        </div>
+
+<div class="email-body">
+    <p>${scene.besked}</p>
+    
+    ${
+        scene.scene === "email" && scene.harQR
+        ? `<div class="fake-qr"></div>`
+        : ""
+    }
+
+    ${
+        scene.scene === "email" && scene.harLink
+        ? `<p>
+            Klik her for at opdatere: 
+            <span class="fake-link">${scene.link}</span>
+           </p>`
+        : ""
+    }
+
+    <p class="email-signoff">
+        Venlig hilsen<br>
+        IT-support
+    </p>
+</div>
       `;
 
     } else if (scene.scene === "sms") {
@@ -98,42 +127,16 @@ function visStep2(sceneIndex) {
     if (gamleKnapper) gamleKnapper.remove();
 
     chat.innerHTML += `
-        <div class="sms-bubble user">
-            ${scene.svar[0]}
+        <div class="sms-bubble bot">
+            ${scene.step2Besked}
         </div>
     `;
 
-    chat.innerHTML += `
-        <div class="sms-bubble bot typing" id="typing">...</div>
-    `;
+    let html = `<div class="valg-container">`;
 
-    setTimeout(() => {
-        const typing = document.getElementById('typing');
-        if (typing) typing.remove();
-
-        chat.innerHTML += `
-            <div class="sms-bubble bot">
-                ${scene.step2Besked}
-            </div>
-        `;
-
-        let html = `<div class="valg-container">`;
-
-        scene.step2Valg.forEach(function(valg, i) {
-            html += `<button class="valg-btn" onclick="handleStep2(${sceneIndex}, ${i})">${valg}</button>`;
-        });
-
-        html += `</div>`;
-
-        document.querySelector('.sms-mock').innerHTML += html;
-
-    }, 800);
-}
-
-
-
-
-
+    scene.step2Valg.forEach(function(valg, i) {
+        html += `<button class="valg-btn" onclick="handleStep2(${sceneIndex}, ${i})">${valg}</button>`;
+    });
 
 html += `</div>`;
 document.querySelector('.sms-mock').innerHTML += html;
@@ -211,7 +214,7 @@ function visGodForklaring(sceneIndex) {
         <div class="slutning god">
         <h2>Godt klaret! Du spottede phishing</h2>
             <p>${scener[sceneIndex].godForklaring}</p>
-            <p class="regel"> Regel: ${scener[sceneIndex].regel}</p>
+            <p class="regel">${scener[sceneIndex].regel}</p>
 
             ${næsteScene < scener.length 
                 ? `<button class="btn" onclick="visScene(${næsteScene})">Næste scene</button>`
@@ -224,8 +227,8 @@ function visGodForklaring(sceneIndex) {
 function visDårligSlutning(sceneIndex) {
     const forklaringer = [
         "Afsenderen 'it-support@iba-secure.net' er ikke en officiel IBA-adresse. Læg mærke til '.net' i stedet for '.dk'. Der var også to tastefejl i mailen: 'oppdaget' og 'mulligt'.",
-        "IT-support vil aldrig bede dig sende din adgangskode. Hverken via SMS, mail eller telefon.",
-        "QR-koder er links i forklædning. Selvom mailen ser legitim ud, sender QR-koden dig til en falsk side."
+        "En rigtig IT-afdeling vil aldrig bede om din adgangskode uanset situationen. Når du sender din kode får de fuld adgang til din konto og kan låse dig ude, stjæle dine data eller bruge din identitet.",
+        "Du scannede QR-koden uden at tænke dig om. QR-koder er i virkeligheden bare links i forklædning og svindlere bruger dem netop fordi de fleste ikke tænker over hvor de fører hen. Selvom mailen og URL'en ser legitim ud, kan QR-koden sende dig direkte til en falsk side, hvor dine oplysninger bliver stjålet."
     ];
 
     const næsteScene = sceneIndex + 1;
@@ -263,10 +266,11 @@ function genstart(){
 function visIntro() {
     quizContainer.innerHTML = `
         <div class="slutning mellemstep">
-            <p>Du er studerende på IBA's erhvervsakademi og vil nu modtage en række mails og SMS'er.</p>
-            <p>Din opgave er at træffe de rigtige valg og undgå at falde i fælden.</p>
-            <p>Mon du kan klare det?</p>
-            <button class="btn" onclick="visScene(0)">Start scenarie 1</button>
+        <h2>Sådan fungerer det</h2>
+        <p>Du er studerende på IBA's erhvervsakademi og vil nu modtage en række mails og SMS'er.</p>
+        <p>Din opgave er at træffe de rigtige valg og undgå at falde i fælden.</p>
+        <p>Mon du kan klare det?</p>
+        <button class="btn" onclick="visScene(0)">Fortsæt</button>
         </div>
     `;
 }
