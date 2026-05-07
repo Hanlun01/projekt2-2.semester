@@ -119,13 +119,14 @@ function visScene(index){
     quizContainer.innerHTML =html;
 
     const knapper = quizContainer.querySelectorAll('.valg-btn');
-knapper.forEach(knap => {
+    knapper.forEach(knap => {
     knap.addEventListener('click', function() {
-        const sIndex = this.getAttribute('data-scene');
-        const vIndex = this.getAttribute('data-valg');
+        const sIndex = Number(this.getAttribute('data-scene'));
+        const vIndex = Number (this.getAttribute('data-valg'));
         handleValg(sIndex, vIndex);
     });
 });
+
 } 
 
 function visStep2(sceneIndex) {
@@ -156,7 +157,8 @@ const step2Knapper = document.querySelectorAll('.step2-btn');
             const vIdx = Number(this.getAttribute('data-valg'));
             handleStep2(sIdx, vIdx);
         });
-});
+    });
+}
 
 function handleStep2(sceneIndex, valgIndex) {
     const scene = scener[sceneIndex];

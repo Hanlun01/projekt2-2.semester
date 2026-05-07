@@ -2,13 +2,13 @@
 $primary-color:#6d8b8e; 
 $color-dark: #1e1e1e;
 $color-light: #f5f0e8;
+$color-green: #2f5d0c;
 
 $font-serif: 'textbook-new', serif;
 $font-sans: 'neuzeit-grotesk', sans-serif;
 
 $spacing-sm: 1rem;
 $spacing-md: 2rem;
-$spacing-lg: 5rem;
 
 $border-radius: 4px;
 $border-radius-lg: 12px;
@@ -431,7 +431,7 @@ nav a {
     font-weight: 700;
     text-align: center;
     font-size: 1.1rem;
-    color: #2f5d0c;
+    color: $color-green;
 }
 
 .fake-link {
