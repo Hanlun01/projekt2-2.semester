@@ -1,5 +1,34 @@
 @import url("https://use.typekit.net/ngn4wlq.css");
 $primary-color:#6d8b8e; 
+$color-dark: #1e1e1e;
+$color-light: #f5f0e8;
+
+$font-serif: 'textbook-new', serif;
+$font-sans: 'neuzeit-grotesk', sans-serif;
+
+$spacing-sm: 1rem;
+$spacing-md: 2rem;
+$spacing-lg: 5rem;
+
+$border-radius: 4px;
+$border-radius-lg: 12px;
+
+@mixin dark-overlay($opacity: 0.65) {
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: rgba(30, 30, 30, $opacity);
+        z-index: 0;
+    }
+}
+
+@mixin flex-center($direction: row){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: $direction;
+}
 
 * {
     margin: 0;
@@ -8,14 +37,14 @@ $primary-color:#6d8b8e;
 }
 
 body {
-    font-family: 'textbook-new', serif;
+    font-family: $font-serif;
+    color: $color-dark;
 }
 
 p{
-    font-family: 'neuzeit-grotesk', sans-serif;
+    font-family: $font-sans;
 }
 
-// nav
 header {
     position: fixed;
     top: 0;
@@ -56,7 +85,7 @@ header {
     }
 }
 
-//nav hover
+
 nav a {
     padding: 0.3rem 0.6rem;
     border-radius: 4px;
@@ -67,7 +96,7 @@ nav a {
     }
 }
 
-//hero
+
 .hero {
     height: 100vh;
     background-image: url('../img/daria-nepriakhina-_XR5rkprHQU-unsplash.jpg');
@@ -76,16 +105,10 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    padding-top: 95px;
     padding-left: 5rem;
-    
 
-    &::before{
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: rgba(30, 30, 30, 0.65);
-        z-index: 0;
-    }
+    @include dark-overlay();
 
     &::after {
         content: '';
@@ -105,21 +128,27 @@ nav a {
         color: white;
 
         h1 {
-            font-size: 128px;
-            margin-bottom: 5rem;
+            font-size: 100px;
+          
         }
 
         p {
             margin-top: 5rem;
+            font-size: 1.3rem;
         }
 
         .btn {
-            margin-top: 5rem;
+            margin-top: 3rem;
         }
     }
 }
 
-//info
+.hero-divider {
+    height: 68px;
+    background-color: $color-light;
+}
+
+
 .info{
     background-color: #f5f0e8;
     padding: 5rem 2rem;
@@ -139,32 +168,19 @@ nav a {
     }
 }
 
-//quiz hero
 
 .quiz-hero {
     height: 100vh;
     background-image: url('../img/keyboard.jpg');
     background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    @include flex-center(column);
     overflow: auto;
     position: relative;
     z-index: 1;
 
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: rgba(30, 30, 30, 0.65);
-        z-index: 0;
-    }
+    @include dark-overlay();
 
-    .btn {
-        position: relative;
-        z-index: 1;
-    }
+
     #quiz-start, #quiz-container {
     position: relative;
     z-index: 2;
@@ -173,25 +189,26 @@ nav a {
 
 }
 
-//knap
 .btn {
+    display: inline-block;
     background-color: $primary-color;
     color: white;
-    padding: 0.8rem 2rem;
+    padding: 1rem 2rem;
     text-decoration: none;
-    border-radius: 4px;
-}
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: $font-sans;
 
-//knap hover
-.btn{
     transition: background-color 0.2s ease;
 
-    &:hover{
+    &:hover {
         background-color: darken($primary-color, 10%);
     }
 }
 
-//quiz-javascript
+
 
 #quiz-start, #quiz-container{
     position: relative;
@@ -207,6 +224,17 @@ nav a {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
+
+    h2{
+        font-size: 3rem;
+        color: white;
+    }
+
+    p {
+        font-size: 1.3rem;
+        color: white;
+        max-width: 600px;
+    }
 }
 
 .hidden{
@@ -216,7 +244,7 @@ nav a {
 .slutning {
     background-color: white;
     color: #1e1e1e;
-    border-radius: 8px;
+    border-radius: $border-radius-lg;
     padding: 2rem;
     max-width: 600px;
     margin: 0 auto;
@@ -286,11 +314,11 @@ nav a {
 .valg-btn{
     background-color: $primary-color;
     color: white;
-    padding: 0.8rem 2rem;
+    padding: 1rem 2rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
 
     &:hover {
         background-color: darken($primary-color, 10%);
@@ -298,26 +326,64 @@ nav a {
 }
 
 .email-mock{
+    font-family: Arial, sans-serif;
     background-color: white;
     color: #1e1e1e;
-    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    border-radius: $border-radius-lg;
     padding: 1.5rem;
     max-width: 600px;
-    margin: 0 auto 2rem auto;
+    margin: 0 auto;
     text-align: left;
 
-    .email-header{
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 1rem;
-        margin-bottom: 1rem;
-
-        span{
-            font-weight: bold;
-        }
+    .email-topbar {
+        display: flex;
+        gap: 6px;
+        padding: 10px;
+        background: #f1f1ff;
     }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f57;}
+    .dot.yellow { background: #ffbd2e;}
+    .dot.green { background:#28c840;}
+
+    .email-header{
+        border-bottom: 1px solid #eee;
+        padding: 15px;
+        margin-bottom: 1rem;}
+
+    .email-header .label{
+        color: #777;
+        font-size: 13px;
+    }
+
+    .email-header .value {
+        font-weight: 600;
+        color: #1e1e1e;
+    }
+
+    .email-header div {
+        margin-bottom: 4px;
+    }
+
+.email-body {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
 }
 
 .sms-mock{
+    font-size: 1.1rem;
+    line-height: 1.8;
     background-color: #f0f0f0;
     border-radius: 8px;
     padding: 1.5rem;
@@ -331,13 +397,32 @@ nav a {
         color: #1e1e1e;
     }
 
+    .sms-chat {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
     .sms-bubble{
-        background-color: #e1f5ee;
-        border-radius: 18px 18px 18px 4px;
+        max-width: 75%;
         padding: 10px 14px;
-        color: #085041;
         font-size: 0.95rem;
         line-height: 1.5;
+        border-radius: 18px;
+    }
+
+    .sms-bubble.bot {
+        background-color: #e5e5ea;
+        color: #000;
+        align-self: flex-start;
+        border-radius: 18px 18px 18px 4px ;
+    }
+
+    .sms-bubble.user {
+        background-color: #1a8bff;
+        color: white;
+        align-self: flex-end;
+        border-radius: 18px 18px 18px 4px;
     }
 }
 
@@ -349,7 +434,92 @@ nav a {
     color: #2f5d0c;
 }
 
+.fake-link {
+    color: #2a7ae2;
+    text-decoration: none;
+}
+
+.email-signoff {
+    margin-top:  1.5rem;
+}
+
+footer {
+    background-color: $primary-color;
+    color: white;
+    padding: 3rem 2rem;
+
+    .footer-content {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+
+    .footer-logo{
+        font-family: $font-serif;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .footer-kontakt {
+        p{
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+
+            &:hover { 
+                text-decoration: underline;
+            }
+        }
+    }
+    .footer-copy {
+        font-family: $font-sans;
+        font-size: 0.85rem;
+        opacity: 0.75;
+        align-self: flex-end;
+    }
+}
+
 @media (max-width: 768px) {
+
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .email-mock {
+        margin: 0 $spacing-sm;
+        padding: $spacing-sm;
+        font-size: 14px;
+    }
+
+    .sms-mock {
+        margin: 0 $spacing-sm $spacing-md $spacing-sm;
+        padding: $spacing-sm;
+        max-width: 100%;
+    }
+
+    .slutning {
+        margin: 0 $spacing-sm;
+        padding: 1.5rem $spacing-sm;
+    }
+
+    .valg-container {
+        padding: 0 $spacing-sm;
+    }
+
+    #quiz-start, #quiz-container {
+        padding: $spacing-md $spacing-sm;
+    }
+
+    #quiz-start h2 {
+        font-size: 2rem;
+    }
 
     .burger {
         display: flex !important;
@@ -399,3 +569,30 @@ nav a {
         }
     }
 }
+
+.scene-label {
+    text-align: center;
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.fake-qr {
+    width: 100px;
+    height: 100px;
+    margin: 20px 0;
+
+    background:
+        repeating-linear-gradient(0deg, #000 0 6px, #fff 6px 12px),
+        repeating-linear-gradient(90deg, #000 0 6px, #fff 6px 12px);
+
+
+    background-color: #fff;
+
+    border: 6px solid #fff;
+    outline: 3px solid #ccc;
+}
+
+

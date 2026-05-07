@@ -113,10 +113,19 @@ function visScene(index){
 
     html += `<div class="valg-container">`;
     scene.valg.forEach(function(valg, i) {
-        html += `<button class="valg-btn" onclick="handleValg(${index}, ${i})">${valg}</button>`;
+        html += `<button class="valg-btn" data-scene="${index}" data-valg="${i}">${valg}</button>`;
     });
     html +=`</div>`; 
     quizContainer.innerHTML =html;
+
+    const knapper = quizContainer.querySelectorAll('.valg-btn');
+knapper.forEach(knap => {
+    knap.addEventListener('click', function() {
+        const sIndex = this.getAttribute('data-scene');
+        const vIndex = this.getAttribute('data-valg');
+        handleValg(sIndex, vIndex);
+    });
+});
 } 
 
 function visStep2(sceneIndex) {
@@ -135,12 +144,19 @@ function visStep2(sceneIndex) {
     let html = `<div class="valg-container">`;
 
     scene.step2Valg.forEach(function(valg, i) {
-        html += `<button class="valg-btn" onclick="handleStep2(${sceneIndex}, ${i})">${valg}</button>`;
+        html += `<button class="valg-btn step2-btn" data-scene="${sceneIndex}" data-valg="${i}">${valg}</button>`;
     });
 
 html += `</div>`;
 document.querySelector('.sms-mock').innerHTML += html;
-}
+const step2Knapper = document.querySelectorAll('.step2-btn');
+    step2Knapper.forEach(knap => {
+        knap.addEventListener('click', function() {
+            const sIdx = Number(this.getAttribute('data-scene'));
+            const vIdx = Number(this.getAttribute('data-valg'));
+            handleStep2(sIdx, vIdx);
+        });
+});
 
 function handleStep2(sceneIndex, valgIndex) {
     const scene = scener[sceneIndex];
@@ -193,18 +209,24 @@ function visDårligMellemstep(sceneIndex) {
     quizContainer.innerHTML = `
         <div class="slutning mellemstep">
             <p>${scener[sceneIndex].dårligMellemstep}</p>
-            <button class="btn" onclick="visDårligSlutning(${sceneIndex})">Fortsæt</button>
+            <button class="btn" id="btn-fortsaet-daarlig">Fortsæt</button>
         </div>
     `;
+    document.getElementById('btn-fortsaet-daarlig').addEventListener('click', function() {
+        visDårligSlutning(sceneIndex);
+    });
 }
 
 function visGodMellemstep(sceneIndex) {
     quizContainer.innerHTML = `
         <div class="slutning mellemstep">
             <p>${scener[sceneIndex].godMellemstep}</p>
-            <button class="btn" onclick="visGodForklaring(${sceneIndex})">Fortsæt</button>
+            <button class="btn" id="btn-fortsaet-god">Fortsæt</button>
         </div>
     `;
+    document.getElementById('btn-fortsaet-god').addEventListener('click', function() {
+        visGodForklaring(sceneIndex);
+    });
 }
 
 function visGodForklaring(sceneIndex) {
@@ -212,16 +234,22 @@ function visGodForklaring(sceneIndex) {
 
     quizContainer.innerHTML = `
         <div class="slutning god">
-        <h2>Godt klaret! Du spottede phishing</h2>
+            <h2>Godt klaret! Du spottede phishing</h2>
             <p>${scener[sceneIndex].godForklaring}</p>
             <p class="regel">${scener[sceneIndex].regel}</p>
-
-            ${næsteScene < scener.length 
-                ? `<button class="btn" onclick="visScene(${næsteScene})">Næste scene</button>`
-                : `<button class="btn" onclick="visSlutning()">Se dit resultat</button>`
-            }
+            <button class="btn" id="btn-naeste-god">
+                ${næsteScene < scener.length ? 'Næste scene' : 'Se dit resultat'}
+            </button>
         </div>
     `;
+
+    document.getElementById('btn-naeste-god').addEventListener('click', function() {
+        if (næsteScene < scener.length) {
+            visScene(næsteScene);
+        } else {
+            visSlutning();
+        }
+    });
 }
 
 function visDårligSlutning(sceneIndex) {
@@ -237,24 +265,20 @@ function visDårligSlutning(sceneIndex) {
         <div class="slutning daarlig">
             <h2>Du er desværre faldet i fælden</h2>
             <p>${forklaringer[sceneIndex]}</p>
-            <p class="regel"> ${scener[sceneIndex].regel}</p>
-
-            ${næsteScene < scener.length 
-                ? `<button class="btn" onclick="visScene(${næsteScene})">Fortsæt</button>`
-                : `<button class="btn" onclick="visSlutning()">Se dit resultat</button>`
-            }
+            <p class="regel">${scener[sceneIndex].regel}</p>
+            <button class="btn" id="btn-naeste-daarlig">
+                ${næsteScene < scener.length ? 'Fortsæt' : 'Se dit resultat'}
+            </button>
         </div>
     `;
-}
 
-function visGodSlutning() {
-    quizContainer.innerHTML = `
-    <div class="slutning god">
-            <h2>Godt klaret!</h2>
-            <p>Du gennemskuede alle tre phishing-forsøg, også den svære med QR-koden. Du er godt rustet til at beskytte din konto.</p>
-            <button class="btn" onclick="genstart()">Prøv igen</button>
-        </div>
-    `;
+    document.getElementById('btn-naeste-daarlig').addEventListener('click', function() {
+        if (næsteScene < scener.length) {
+            visScene(næsteScene);
+        } else {
+            visSlutning();
+        }
+    });
 }
 
 function genstart(){
@@ -266,44 +290,50 @@ function genstart(){
 function visIntro() {
     quizContainer.innerHTML = `
         <div class="slutning mellemstep">
-        <h2>Sådan fungerer det</h2>
-        <p>Du er studerende på IBA's erhvervsakademi og vil nu modtage en række mails og SMS'er.</p>
-        <p>Din opgave er at træffe de rigtige valg og undgå at falde i fælden.</p>
-        <p>Mon du kan klare det?</p>
-        <button class="btn" onclick="visScene(0)">Fortsæt</button>
+            <h2>Sådan fungerer det</h2>
+            <p>Du er studerende på IBA's erhvervsakademi og vil nu modtage en række mails og SMS'er.</p>
+            <p>Din opgave er at træffe de rigtige valg og undgå at falde i fælden.</p>
+            <p>Mon du kan klare det?</p>
+            <button class="btn" id="btn-intro">Fortsæt</button>
         </div>
     `;
+
+    document.getElementById('btn-intro').addEventListener('click', function() {
+        visScene(0);
+    });
 }
 
 function visSlutning() {
-    if (fejl===0) {
+    if (fejl === 0) {
         quizContainer.innerHTML = `
-        <div class="slutning god">
-        <h2>Perfekt! Du gennemskuede alle tre phishing forsøg</h2>
-        <p>Du har en stærk fornemmelse for hvad der er mistænkeligt og hvad der er legitimt. Du lader dig ikke manipulere til at handle hurtigt og det er præcis det der beskytter dig mod phishing.</p>
-        <button class="btn" onclick="genstart()">Prøv igen</button>
-        </div>
+            <div class="slutning god">
+                <h2>Perfekt! Du gennemskuede alle tre phishing forsøg</h2>
+                <p>Du har en stærk fornemmelse for hvad der er mistænkeligt og hvad der er legitimt. Du lader dig ikke manipulere til at handle hurtigt og det er præcis det der beskytter dig mod phishing.</p>
+                <button class="btn" id="btn-genstart">Prøv igen</button>
+            </div>
         `;
     } else if (fejl === 1) {
         quizContainer.innerHTML = `
-        <div class="slutning daarlig">
-        <h2>Næsten! Du faldt i fælden én enkelt gang</h2>
-        <p>Phishing bliver mere og mere avanceret og svindlere laver beskeder der er svære at gennemskue. Husk altid at stoppe op og tjekke afsenderen inden du handler.</p>
-        <button class="btn" onclick="genstart()">Prøv igen</button>
-        </div>
+            <div class="slutning daarlig">
+                <h2>Næsten! Du faldt i fælden én enkelt gang</h2>
+                <p>Phishing bliver mere og mere avanceret og svindlere laver beskeder der er svære at gennemskue. Husk altid at stoppe op og tjekke afsenderen inden du handler.</p>
+                <button class="btn" id="btn-genstart">Prøv igen</button>
+            </div>
         `;
-
     } else {
         quizContainer.innerHTML = `
-        <div class="slutning daarlig">
-        <h2>Du faldt i fælden ${fejl} gange</h2>
-        <p>Phishing og quishing er svindelmetoder, hvor nogen udgiver sig for at være en, du stoler på. De bruger ofte hast, frygt eller vigtige beskeder for at få dig til at handle uden at tænke. Vær opmærksom på stavefejl, pres og mistænkelige links eller QR-koder. Prøv igen og se, om du kan spotte dem alle.</p>
-        <p class="regel"> Regel: Stop altid op og tjek afsenderen.</p>
-        <button class="btn" onclick="genstart()">Prøv igen</button>
-        </div>
-     `;
-
+            <div class="slutning daarlig">
+                <h2>Du faldt i fælden ${fejl} gange</h2>
+                <p>Social engineering er en svindelmetode, hvor nogen udgiver sig for at være en, du stoler på. Phishing er en af de mest udbredte former, hvor svindlere bruger hast, frygt eller vigtige beskeder for at få dig til at handle uden at tænke. Vær opmærksom på stavefejl, pres og mistænkelige links eller QR-koder.</p>
+                <p class="regel">Næste gang du modtager en mistænkelig besked — stop op, træk vejret og tjek afsenderen inden du handler.</p>
+                <button class="btn" id="btn-genstart">Prøv igen</button>
+            </div>
+        `;
     }
+
+    document.getElementById('btn-genstart').addEventListener('click', function() {
+        genstart();
+    });
 }
 
 startBtn.addEventListener('click', function() {
